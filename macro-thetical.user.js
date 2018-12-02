@@ -7,6 +7,8 @@
 // @match        https://www.fitbit.com/foods/log
 // @grant        none
 // @require      http://code.jquery.com/jquery-latest.js
+// @downloadURL  https://github.com/paul-nelson-baker/macro-thectical/raw/master/macro-thetical.user.js
+// @updateURL    https://github.com/paul-nelson-baker/macro-thectical/raw/master/macro-thetical.user.js
 // ==/UserScript==
 
 /*
