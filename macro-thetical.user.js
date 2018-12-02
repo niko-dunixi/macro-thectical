@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         macro-thetical
 // @namespace    http://paulbaker.io
-// @version      0.5.1
+// @version      0.5.2
 // @description  Reads my macros, prints out how many I have left, and some hypothetical foods I can still eat with my allowance :)
 // @author       Paul Nelson Baker
 // @match        https://www.fitbit.com/foods/log
@@ -74,13 +74,13 @@ function initializeCustomRows() {
 //        $(customRowsSelector).remove();
 //        initializeCustomRows();
 //    });
-    setTimeout(initializeCustomRows, 100);
+    // setTimeout(initializeCustomRows, 100);
 }
 
 
 
 (function() {
     'use strict';
-    // setInterval(initializeCustomRows, 100);
-    initializeCustomRows();
+    setInterval(initializeCustomRows, 100);
+    // initializeCustomRows();
 })();
