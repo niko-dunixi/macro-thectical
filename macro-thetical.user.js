@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         macro-thetical
 // @namespace    http://paulbaker.io
-// @version      0.3
+// @version      0.4
 // @description  Reads my macros, prints out how many I have left, and some hypothetical foods I can still eat with my allowance :)
 // @author       Paul Nelson Baker
 // @match        https://www.fitbit.com/foods/log
@@ -16,29 +16,24 @@ My macros are based on my body height/type/shape and my
 fitness goals. Get yours from your personal trainer :)
 */
 const maxFat = 133;
-const maxCarb = 20;
+const maxCarbs = 20;
 const maxProtein = 110;
 
+function getRemainingMacro(macroJquerySelector, totalMacroCount) {
+    let currentMacroElement = $(macroJquerySelector);
+    let currentMacroText = currentMacroElement.text();
+    let currentMacroValue = parseFloat(currentMacroText.replace(/\s+g/gi, ''));
+    return totalMacroCount - currentMacroValue;
+}
+
 function getRemainingMacros() {
-    function parseGrams(element) {
-        return parseFloat(element.text().replace(/\s+g/gi, ''));
-    }
-    function getRemainingFat() {
-        let fatElement = $('#dailyTotals > div > div:nth-child(3) > div > div.amount');
-        return maxFat - parseGrams(fatElement);
-    }
-    function getRemainingCarbs() {
-        let carbElement = $('#dailyTotals > div.content.firstBlock > div:nth-child(5) > div > div.amount');
-        return maxCarb - parseGrams(carbElement);
-    }
-    function getRemainingProtein() {
-        let proteinElement = $('#dailyTotals > div.content.firstBlock > div:nth-child(7) > div > div.amount');
-        return maxProtein - parseGrams(proteinElement);
-    }
+    let fatSelector = '#dailyTotals > div > div:nth-child(3) > div > div.amount';
+    let carbsSelector = '#dailyTotals > div.content.firstBlock > div:nth-child(5) > div > div.amount';
+    let proteinSelector = '#dailyTotals > div.content.firstBlock > div:nth-child(7) > div > div.amount';
     return {
-        'fat': getRemainingFat(),
-        'carbs': getRemainingCarbs(),
-        'protein': getRemainingProtein()
+        'fat': getRemainingMacro(fatSelector, maxFat),
+        'carbs': getRemainingMacro(carbsSelector, maxCarbs),
+        'protein': getRemainingMacro(proteinSelector, maxProtein),
     };
 }
 
