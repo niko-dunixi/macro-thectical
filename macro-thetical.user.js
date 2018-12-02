@@ -6,7 +6,7 @@
 // @author       Paul Nelson Baker
 // @match        https://www.fitbit.com/foods/log
 // @grant        none
-// @require     http://code.jquery.com/jquery-latest.js
+// @require      http://code.jquery.com/jquery-latest.js
 // ==/UserScript==
 
 /*
