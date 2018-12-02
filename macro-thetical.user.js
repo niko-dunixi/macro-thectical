@@ -74,12 +74,13 @@ function initializeCustomRows() {
 //        $(customRowsSelector).remove();
 //        initializeCustomRows();
 //    });
+    setTimeout(initializeCustomRows, 100);
 }
 
 
 
 (function() {
     'use strict';
-    setInterval(initializeCustomRows, 100);
-    //initializeCustomRows();
+    // setInterval(initializeCustomRows, 100);
+    initializeCustomRows();
 })();
