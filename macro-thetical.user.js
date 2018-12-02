@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         macro-thetical
 // @namespace    http://paulbaker.io
-// @version      0.5
+// @version      0.5.1
 // @description  Reads my macros, prints out how many I have left, and some hypothetical foods I can still eat with my allowance :)
 // @author       Paul Nelson Baker
 // @match        https://www.fitbit.com/foods/log
@@ -59,7 +59,7 @@ function initializeCustomRows() {
     let remainingMacros = getRemainingMacros();
     // Maxes
     let myMaxes = getInnerElement('my-max');
-    myMaxes.text('Max Fat/Carb/Protein: ' + remainingMacros.fat + ' / ' + remainingMacros.carbs + ' / ' + remainingMacros.protein);
+    myMaxes.text('Max Fat/Carb/Protein: ' + maxFat + ' / ' + maxCarbs + ' / ' + maxProtein);
     // Remainders
     let myRemainders = getInnerElement('my-remainders');
     myRemainders.text('Remaining Fat/Carb/Protein: ' + remainingMacros.fat + ' / ' + remainingMacros.carbs + ' / ' + remainingMacros.protein);
