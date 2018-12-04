@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         macro-thetical
 // @namespace    http://paulbaker.io
-// @version      0.5.2
+// @version      0.5.3
 // @description  Reads my macros, prints out how many I have left, and some hypothetical foods I can still eat with my allowance :)
 // @author       Paul Nelson Baker
 // @match        https://www.fitbit.com/foods/log
+// @match        https://www.fitbit.com/foods/log/*
 // @grant        none
 // @require      http://code.jquery.com/jquery-latest.js
 // @downloadURL  https://github.com/paul-nelson-baker/macro-thectical/raw/master/macro-thetical.user.js
