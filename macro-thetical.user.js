@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         macro-thetical
 // @namespace    http://paulbaker.io
-// @version      0.5.3
+// @version      0.5.4
 // @description  Reads my macros, prints out how many I have left, and some hypothetical foods I can still eat with my allowance :)
 // @author       Paul Nelson Baker
 // @match        https://www.fitbit.com/foods/log
@@ -20,21 +20,22 @@ const maxFat = 133;
 const maxCarbs = 20;
 const maxProtein = 110;
 
-function getRemainingMacro(macroJquerySelector, totalMacroCount) {
-    let currentMacroElement = $(macroJquerySelector);
+function parseMacroValue(macroJQuerySelector) {
+    let currentMacroElement = $(macroJQuerySelector);
     let currentMacroText = currentMacroElement.text();
-    let currentMacroValue = parseFloat(currentMacroText.replace(/\s+g/gi, ''));
-    return totalMacroCount - currentMacroValue;
+    let currentMacroValue = parseFloat(currentMacroText.replace(/\s+g/gi, ''))
+    return currentMacroValue;
 }
 
 function getRemainingMacros() {
     let fatSelector = '#dailyTotals > div > div:nth-child(3) > div > div.amount';
     let carbsSelector = '#dailyTotals > div.content.firstBlock > div:nth-child(5) > div > div.amount';
+    let fiberSelector = '#dailyTotals > div.content.firstBlock > div:nth-child(4) > div > div.amount';
     let proteinSelector = '#dailyTotals > div.content.firstBlock > div:nth-child(7) > div > div.amount';
     return {
-        'fat': getRemainingMacro(fatSelector, maxFat),
-        'carbs': getRemainingMacro(carbsSelector, maxCarbs),
-        'protein': getRemainingMacro(proteinSelector, maxProtein),
+        'fat': maxFat - parseMacroValue(fatSelector),
+        'carbs': maxCarbs - parseMacroValue(carbsSelector) + parseMacroValue(fiberSelector),
+        'protein': maxProtein - parseMacroValue(proteinSelector),
     };
 }
 
