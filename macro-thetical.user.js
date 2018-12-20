@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         macro-thetical
 // @namespace    http://paulbaker.io
-// @version      0.5.6
+// @version      0.5.7
 // @description  Reads my macros, prints out how many I have left, and some hypothetical foods I can still eat with my allowance :)
 // @author       Paul Nelson Baker
 // @match        https://www.fitbit.com/foods/log
@@ -52,7 +52,7 @@ function createRowContainer() {
     }
 }
 
-function createRow(rowElementId, rowText) {
+function createRow(rowElementId, rowInitializerCallback) {
     createRowContainer();
 
     let customRowsElement = $('div#my-custom-rows');
@@ -60,7 +60,7 @@ function createRow(rowElementId, rowText) {
     if ($(selector).length === 0) {
         customRowsElement.append('<div id=' + rowElementId + ' class="content"></div>');
         let resultElement = $(selector);
-        resultElement.text(rowText);
+        rowInitializerCallback(resultElement);
         console.log('Creating row inside container', resultElement[0]);
     }
 }
@@ -69,9 +69,15 @@ function initializeCustomRows() {
     // Gather Remainders
     let remainingMacros = getRemainingMacros(maxValues);
     // Maxes (to remind me), Remainders, Remainders in terms of EGGS <3!!!
-    createRow('my-max', 'Max Fat/Net-Carb/Protein: ' + maxValues.fat + ' / ' + maxValues.carbs + ' / ' + maxValues.protein);
-    createRow('my-remainders', 'Remaining Fat/Net-Carb/Protein: ' + remainingMacros.fat + ' / ' + remainingMacros.carbs + ' / ' + remainingMacros.protein);
-    createRow('my-eggs', 'How many more eggs can I eat today? ' + Math.floor(Math.min(remainingMacros.fat / 5, remainingMacros.protein / 6)) + ' 🥚')
+    createRow('my-max', rowElement => {
+        rowElement.text('Max Fat/Net-Carb/Protein: ' + maxValues.fat + ' / ' + maxValues.carbs + ' / ' + maxValues.protein);
+    });
+    createRow('my-remainders', rowElement => {
+        rowElement.text('Remaining Fat/Net-Carb/Protein: ' + remainingMacros.fat + ' / ' + remainingMacros.carbs + ' / ' + remainingMacros.protein);
+    });
+    createRow('my-eggs', rowElement => {
+        rowElement.text('How many more eggs can I eat today? ' + Math.floor(Math.min(remainingMacros.fat / 5, remainingMacros.protein / 6)) + ' 🥚');
+    });
 }
 
 (function() {
