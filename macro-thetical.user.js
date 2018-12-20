@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         macro-thetical
 // @namespace    http://paulbaker.io
-// @version      0.5.7
+// @version      0.5.8
 // @description  Reads my macros, prints out how many I have left, and some hypothetical foods I can still eat with my allowance :)
 // @author       Paul Nelson Baker
 // @match        https://www.fitbit.com/foods/log
@@ -66,17 +66,63 @@ function createRow(rowElementId, rowInitializerCallback) {
 }
 
 function initializeCustomRows() {
-    // Gather Remainders
-    let remainingMacros = getRemainingMacros(maxValues);
     // Maxes (to remind me), Remainders, Remainders in terms of EGGS <3!!!
     createRow('my-max', rowElement => {
-        rowElement.text('Max Fat/Net-Carb/Protein: ' + maxValues.fat + ' / ' + maxValues.carbs + ' / ' + maxValues.protein);
+        rowElement.append($('<h3>Max Macros</h3>'));
+        rowElement.append($(`<div class="total">
+            <div class="label">
+                <div class="substance">Fat</div>
+                <div class="amount">` + maxValues.fat + `<span class="unit"> g</span></div>
+            </div>
+        </div>'`));
+        rowElement.append($(`<div class="total">
+            <div class="label">
+                <div class="substance">NetCarbs</div>
+                <div class="amount">` + maxValues.carbs + `<span class="unit"> g</span></div>
+            </div>
+        </div>'`));
+        rowElement.append($(`<div class="total">
+            <div class="label">
+                <div class="substance">Protein</div>
+                <div class="amount">` + maxValues.protein + `<span class="unit"> g</span></div>
+            </div>
+        </div>'`));
     });
+
     createRow('my-remainders', rowElement => {
-        rowElement.text('Remaining Fat/Net-Carb/Protein: ' + remainingMacros.fat + ' / ' + remainingMacros.carbs + ' / ' + remainingMacros.protein);
+        const remainingMacros = getRemainingMacros(maxValues);
+
+        rowElement.append($('<h3>Remaining Macros</h3>'));
+        rowElement.append($(`<div class="total">
+            <div class="label">
+                <div class="substance">Fat</div>
+                <div class="amount">` + remainingMacros.fat + `<span class="unit"> g</span></div>
+            </div>
+        </div>'`));
+        rowElement.append($(`<div class="total">
+            <div class="label">
+                <div class="substance">NetCarbs</div>
+                <div class="amount">` + remainingMacros.carbs + `<span class="unit"> g</span></div>
+            </div>
+        </div>'`));
+        rowElement.append($(`<div class="total">
+            <div class="label">
+                <div class="substance">Protein</div>
+                <div class="amount">` + remainingMacros.protein + `<span class="unit"> g</span></div>
+            </div>
+        </div>'`));
     });
     createRow('my-eggs', rowElement => {
-        rowElement.text('How many more eggs can I eat today? ' + Math.floor(Math.min(remainingMacros.fat / 5, remainingMacros.protein / 6)) + ' 🥚');
+        const remainingMacros = getRemainingMacros(maxValues);
+        const remainingEggCount = Math.max(0, Math.floor(Math.min(remainingMacros.fat / 5, remainingMacros.protein / 6)));
+
+        rowElement.append($('<h3>Remaining Foods!</h3>'));
+        rowElement.append($(`<div class="total">
+            <div class="label">
+                <div class="substance">Whole Eggs!!!</div>
+                <div class="amount">` + remainingEggCount + `<span class="unit"> 🥚</span></div>
+            </div>
+        </div>'`));
     });
 }
 
