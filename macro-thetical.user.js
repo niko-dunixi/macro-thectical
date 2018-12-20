@@ -20,6 +20,13 @@ const maxValues = {
     fat: 133,
     carbs: 20,
     protein: 110,
+    // I'm not sure why these are my weekly/daily totals.
+    // The math doesn't quite add up.
+    //
+    // 1g fat = 9 Calories,
+    // 1g Carbs or Protien = 4 calories.
+    weeklyCalories: 12_005,
+    dailyCalories: 1715,
 }
 
 console.log('Using max macros', maxValues);
