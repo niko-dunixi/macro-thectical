@@ -14,7 +14,9 @@
 
 /*
 My macros are based on my body height/type/shape and my
-fitness goals. Get yours from your personal trainer :)
+fitness goals. Get yours from your personal trainer or online calculator :)
+
+Here is a popular calculator: https://ketogains.com/ketogains-calculator/
 */
 const maxValues = {
     fat: 133,
