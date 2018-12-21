@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         macro-thetical
 // @namespace    http://paulbaker.io
-// @version      0.5.8
+// @version      0.5.9
 // @description  Reads my macros, prints out how many I have left, and some hypothetical foods I can still eat with my allowance :)
 // @author       Paul Nelson Baker
 // @match        https://www.fitbit.com/foods/log
@@ -25,7 +25,7 @@ const maxValues = {
     //
     // 1g fat = 9 Calories,
     // 1g Carbs or Protien = 4 calories.
-    weeklyCalories: 12_005,
+    weeklyCalories: 12005,
     dailyCalories: 1715,
 }
 
@@ -72,64 +72,41 @@ function createRow(rowElementId, rowInitializerCallback) {
     }
 }
 
+function createColumn(substanceLabel, substanceAmount, substanceUnit=undefined) {
+    let htmlValue = `
+    <div class="total">
+      <div class="label">
+        <div class="substance">${substanceLabel}</div>
+        <div class="amount">
+          ${substanceAmount} ${substanceUnit === undefined ? '' : `<span class="unit"> ${substanceUnit}</span>`}
+        </div>
+       </div>
+    </div>
+    `;
+    return $(htmlValue);
+}
+
 function initializeCustomRows() {
     // Maxes (to remind me), Remainders, Remainders in terms of EGGS <3!!!
     createRow('my-max', rowElement => {
         rowElement.append($('<h3>Max Macros</h3>'));
-        rowElement.append($(`<div class="total">
-            <div class="label">
-                <div class="substance">Fat</div>
-                <div class="amount">` + maxValues.fat + `<span class="unit"> g</span></div>
-            </div>
-        </div>'`));
-        rowElement.append($(`<div class="total">
-            <div class="label">
-                <div class="substance">NetCarbs</div>
-                <div class="amount">` + maxValues.carbs + `<span class="unit"> g</span></div>
-            </div>
-        </div>'`));
-        rowElement.append($(`<div class="total">
-            <div class="label">
-                <div class="substance">Protein</div>
-                <div class="amount">` + maxValues.protein + `<span class="unit"> g</span></div>
-            </div>
-        </div>'`));
+        rowElement.append(createColumn('Fat', maxValues.fat, 'g'));
+        rowElement.append(createColumn('Net Carbs', maxValues.carbs, 'g'));
+        rowElement.append(createColumn('Protein', maxValues.protein, 'g'));
     });
 
     createRow('my-remainders', rowElement => {
         const remainingMacros = getRemainingMacros(maxValues);
-
         rowElement.append($('<h3>Remaining Macros</h3>'));
-        rowElement.append($(`<div class="total">
-            <div class="label">
-                <div class="substance">Fat</div>
-                <div class="amount">` + remainingMacros.fat + `<span class="unit"> g</span></div>
-            </div>
-        </div>'`));
-        rowElement.append($(`<div class="total">
-            <div class="label">
-                <div class="substance">NetCarbs</div>
-                <div class="amount">` + remainingMacros.carbs + `<span class="unit"> g</span></div>
-            </div>
-        </div>'`));
-        rowElement.append($(`<div class="total">
-            <div class="label">
-                <div class="substance">Protein</div>
-                <div class="amount">` + remainingMacros.protein + `<span class="unit"> g</span></div>
-            </div>
-        </div>'`));
+        rowElement.append(createColumn('Fat', remainingMacros.fat, 'g'));
+        rowElement.append(createColumn('Net Carbs', remainingMacros.carbs, 'g'));
+        rowElement.append(createColumn('Protein', remainingMacros.protein, 'g'));
     });
     createRow('my-eggs', rowElement => {
         const remainingMacros = getRemainingMacros(maxValues);
         const remainingEggCount = Math.max(0, Math.floor(Math.min(remainingMacros.fat / 5, remainingMacros.protein / 6)));
-
         rowElement.append($('<h3>Remaining Foods!</h3>'));
-        rowElement.append($(`<div class="total">
-            <div class="label">
-                <div class="substance">Whole Eggs!!!</div>
-                <div class="amount">` + remainingEggCount + `<span class="unit"> 🥚</span></div>
-            </div>
-        </div>'`));
+        rowElement.append(createColumn('Whole Eggs', remainingEggCount, '🥚'))
     });
 }
 
