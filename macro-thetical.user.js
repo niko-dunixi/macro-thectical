@@ -114,6 +114,9 @@ function initializeCustomRows() {
 
 (function() {
     'use strict';
-    setInterval(initializeCustomRows, 100);
-    // initializeCustomRows();
+    $("body").on('DOMSubtreeModified', "#foodlog", function() {
+        console.log('here guy');
+        initializeCustomRows();
+    });
+    initializeCustomRows();
 })();
